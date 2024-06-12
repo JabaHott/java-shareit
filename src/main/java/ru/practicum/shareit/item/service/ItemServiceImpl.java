@@ -3,6 +3,7 @@ package ru.practicum.shareit.item.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.OwnerValidationException;
 import ru.practicum.shareit.item.dao.ItemDao;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -49,7 +50,7 @@ public class ItemServiceImpl implements ItemService {
         if (item == null) {
             String errorMessage = String.format("Вещь с id = %d не найдена!", id);
             log.warn(errorMessage);
-            //throw new NotFoundException(errorMessage);
+            throw new NotFoundException(errorMessage);
         }
         return itemMapper.toItemDto(item);
     }
