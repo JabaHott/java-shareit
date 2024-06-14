@@ -26,18 +26,17 @@ public class UserServiceImpl implements UserService {
         if (emailValidation(user.getEmail())) {
             throw new EmailDuplicateException("Указанная почта " + user.getEmail() + " уже привязана к аккаунту!");
         }
+        log.debug("Создан пользователь с id = {} и почтой {}", user.getId(), user.getEmail());
         return userMapper.toUserDto(userDao.save(user));
 
     }
 
     @Override
     public UserDto update(User user, Long userId) {
-        if (idValidation(user.getId())) {
-            //throw new ValidationException("Указанный пользователь " + user.getId() + " еще не создан!");
-        }
         if (emailValidation(user.getEmail()) && !userDao.get(userId).getEmail().equals(user.getEmail())) {
             throw new EmailDuplicateException("Указанная почта " + user.getEmail() + " уже привязана к аккаунту!");
         }
+        log.debug("Изменен пользователь с id = {} и почтой {}", userId, user.getEmail());
         return userMapper.toUserDto(userDao.update(user, userId));
     }
 
@@ -46,11 +45,13 @@ public class UserServiceImpl implements UserService {
         if (idValidation(id)) {
             throw new NotFoundException("Указанный пользователь " + id + " еще не создан!");
         }
+        log.debug("Изменен пользователь с id = {}", id);
         return userMapper.toUserDto(userDao.get(id));
     }
 
     @Override
     public List<UserDto> getAll() {
+        log.debug("Запрошен список всех пользователей");
         return userDao.getAll().stream()
                 .map(userMapper::toUserDto)
                 .collect(Collectors.toList());
@@ -58,19 +59,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(Long id) {
-        if (idValidation(id)) {
-            //throw new ValidationException("Указанный пользователь " + id + " еще не создан!");
-        }
+        log.debug("Удален пользователь с id = {}", id);
         userDao.delete(id);
     }
 
     @Override
     public List<String> getAllEmails() {
+        log.debug("Получен список всех почт");
         return userDao.getAllEmails();
     }
 
     @Override
     public List<Long> getAllIds() {
+        log.debug("Получен список всех идентификаторов");
         return userDao.getAllIds();
     }
 

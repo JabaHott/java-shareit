@@ -29,6 +29,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto create(Item item, Long userId) {
         UserDto user = userService.get(userId);
         item.setOwnerId(userId);
+        log.debug("Создан товар с id = {} и id хозяина = {}", item.getId(), userId);
         return itemMapper.toItemDto(itemDao.save(item));
     }
 
@@ -41,6 +42,7 @@ public class ItemServiceImpl implements ItemService {
             log.warn(errorMessage);
             throw new OwnerValidationException(errorMessage);
         }
+        log.debug("Изменен товар с id = {} и id хозяина = {}", itemId, userId);
         return itemMapper.toItemDto(itemDao.update(item, itemId));
     }
 
@@ -52,11 +54,13 @@ public class ItemServiceImpl implements ItemService {
             log.warn(errorMessage);
             throw new NotFoundException(errorMessage);
         }
+        log.debug("Получен товар с id = {}", id);
         return itemMapper.toItemDto(item);
     }
 
     @Override
     public List<ItemDto> getAll(Long userId) {
+        log.debug("Получен список всех товаров");
         return itemDao.getAllByUserId(userId).stream()
                 .map(itemMapper::toItemDto)
                 .collect(Collectors.toList());
@@ -67,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
         if (text.isBlank()) {
             return new ArrayList<>();
         }
-
+        log.debug("Запрошен список товаров");
         return itemDao.search(text.toLowerCase())
                 .stream()
                 .map(itemMapper::toItemDto)
@@ -76,6 +80,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Long> getIdsList() {
+        log.debug("Запрошен список всех идентификаторов");
         return itemDao.getIdsList();
     }
 
