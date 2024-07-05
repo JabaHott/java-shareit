@@ -1,30 +1,13 @@
 package ru.practicum.shareit.item.mapper;
 
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
 
-import javax.validation.constraints.NotNull;
+@Mapper(componentModel = "spring", uses = {CommentMapper.class})
+public interface ItemMapper {
 
-@Component
-public class ItemMapper {
-    public ItemDto toItemDto(@NotNull Item item) {
-        return new ItemDto(
-                item.getId(),
-                item.getName(),
-                item.getDescription(),
-                item.getAvailable(),
-                item.getOwnerId(),
-                item.getRequestId());
-    }
+    ItemDto toItemDto(Item item);
 
-    public Item toItem(@NotNull ItemDto itemDto) {
-        return new Item(
-                itemDto.getId(),
-                itemDto.getName(),
-                itemDto.getDescription(),
-                itemDto.getAvailable(),
-                itemDto.getOwnerId(),
-                itemDto.getRequestId());
-    }
+    Item toItem(ItemDto itemDto);
 }
