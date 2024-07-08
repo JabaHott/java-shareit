@@ -11,9 +11,7 @@ import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-/**
- * TODO Sprint add-bookings.
- */
+
 @Data
 @AllArgsConstructor
 public class BookingDto {
