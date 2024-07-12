@@ -1,2 +1,3 @@
 # java-shareit
-Template repository for Shareit project.
+
+![ShareIt_ER_Diagramm](https://github.com/JabaHott/java-shareit/blob/add-bookings/shareitER.png)

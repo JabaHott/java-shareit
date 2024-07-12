@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.mapper.ItemMapper;
 import ru.practicum.shareit.item.model.Item;
@@ -12,9 +13,7 @@ import ru.practicum.shareit.item.service.ItemService;
 import javax.validation.Valid;
 import java.util.*;
 
-/**
- * TODO Sprint add-controllers.
- */
+
 @Slf4j
 @RestController
 @RequestMapping(path = "/items")
@@ -29,7 +28,7 @@ public class ItemController {
     public ResponseEntity<ItemDto> addItem(@Valid @RequestBody ItemDto itemDto, @RequestHeader(REQ_HEADER) Long userId) {
         log.info("Получен POST запрос /items с телом {}", itemDto);
         Item item = itemMapper.toItem(itemDto);
-        return ResponseEntity.ok().body(itemService.create(item, userId));
+        return ResponseEntity.ok().body(itemService.create(itemDto, userId));
     }
 
     @PatchMapping("/{itemId}")
@@ -38,13 +37,13 @@ public class ItemController {
                                             @RequestHeader(REQ_HEADER) Long userId) {
         log.info("Получен PATCH запрос /items/{} с телом {}", itemId, itemDto);
         Item item = itemMapper.toItem(itemDto);
-        return ResponseEntity.ok().body(itemService.update(item, itemId, userId));
+        return ResponseEntity.ok().body(itemService.update(itemDto, itemId, userId));
     }
 
     @GetMapping("/{itemId}")
-    public ResponseEntity<ItemDto> getItemById(@PathVariable("itemId") Long itemId) {
+    public ResponseEntity<ItemDto> getItemById(@PathVariable("itemId") Long itemId, @RequestHeader(REQ_HEADER) Long userId) {
         log.info("Получен GET запрос /items/{}", itemId);
-        return ResponseEntity.ok().body(itemService.get(itemId));
+        return ResponseEntity.ok().body(itemService.get(itemId, userId));
     }
 
     @GetMapping
@@ -57,5 +56,12 @@ public class ItemController {
     public ResponseEntity<List<ItemDto>> searchItem(@RequestParam("text") String text) {
         log.info("Получен  GET запрос /items/search с телом {}", text);
         return ResponseEntity.ok().body(itemService.search(text));
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public ResponseEntity<CommentDto> addComment(@Valid @RequestBody CommentDto commentDto,
+                                                 @PathVariable("itemId") Long itemId,
+                                                 @RequestHeader(REQ_HEADER) Long userId) {
+        return ResponseEntity.ok().body(itemService.addComment(commentDto, itemId, userId));
     }
 }

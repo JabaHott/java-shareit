@@ -1,22 +1,14 @@
 package ru.practicum.shareit.user.mapper;
 
-import org.springframework.stereotype.Component;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.dto.UserDto;
 
-@Component
-public class UserMapper {
-    public UserDto toUserDto(User user) {
-        return new UserDto(
-                user.getId(),
-                user.getName(),
-                user.getEmail());
-    }
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface UserMapper {
+    UserDto toUserDto(User user);
 
-    public User toUser(UserDto userDto) {
-        return new User(
-                userDto.getId(),
-                userDto.getName(),
-                userDto.getEmail());
-    }
+    User toUser(UserDto userDto);
 }
