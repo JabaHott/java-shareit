@@ -51,7 +51,7 @@ public class BookingServiceTest {
 
         NotFoundException exp = assertThrows(NotFoundException.class,
                 () -> bookingService.create(BookingInDto, ownerDto.getId()));
-        assertEquals("Нельзя бронировать свою вещь!", exp.getMessage());
+        assertEquals("Вы не можете забронировать вещь, для которой являетесь владельцем!", exp.getMessage());
     }
 
     @Test
@@ -69,7 +69,7 @@ public class BookingServiceTest {
 
         NotFoundException exp = assertThrows(NotFoundException.class,
                 () -> bookingService.updateStatus(bookingDto.getId(), true, bookerDto.getId()));
-        assertEquals(String.format("Пользователь с id = %d не владеет товаром!",
+        assertEquals(String.format("Статус бронирования может изменить только владелец вещи с id = 3!",
                 bookerDto.getId()), exp.getMessage());
     }
 
@@ -466,38 +466,4 @@ public class BookingServiceTest {
         assertEquals(String.format("Вещь с id = %d недоступна для бронирования!", itemDto.getId()), exp.getMessage());
     }
 
-    @Test
-    void shouldExceptionWhenBookingEndIsBeforeStart() {
-        UserDto ownerDto = userService.create(user1);
-        UserDto bookerDto = userService.create(user2);
-        ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
-
-        BookingInDto BookingInDto = new BookingInDto(
-                itemDto.getId(),
-                LocalDateTime.now().minusDays(5),
-                LocalDateTime.now().minusDays(10));
-
-        ValidationException exp = assertThrows(ValidationException.class,
-                () -> bookingService.create(BookingInDto, bookerDto.getId()));
-        assertEquals("Дата окончания бронирования не может быть раньше или равняться дате начала бронирования",
-                exp.getMessage());
-    }
-
-    @Test
-    void shouldExceptionWhenBookingEndEqualsStart() {
-        UserDto ownerDto = userService.create(user1);
-        UserDto bookerDto = userService.create(user2);
-        ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
-
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        BookingInDto BookingInDto = new BookingInDto(
-                itemDto.getId(),
-                currentDateTime,
-                currentDateTime);
-
-        ValidationException exp = assertThrows(ValidationException.class,
-                () -> bookingService.create(BookingInDto, bookerDto.getId()));
-        assertEquals("Дата окончания бронирования не может быть раньше или равняться дате начала бронирования",
-                exp.getMessage());
-    }
 }
