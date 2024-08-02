@@ -26,7 +26,7 @@ import static org.junit.Assert.assertThrows;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class RequestServiceTest {
 
-    private final RequestService RequestService;
+    private final RequestService requestService;
     private final UserService userService;
 
     private final User user1 = new User(101L, "AlexOne", "alexone@alex.ru");
@@ -39,7 +39,7 @@ public class RequestServiceTest {
     @Test
     void shouldCreateItemRequest() {
         UserDto newUserDto = userService.create(user1);
-        ItemRequestDto returnRequestDto = RequestService.create(itemRequestDto, newUserDto.getId());
+        ItemRequestDto returnRequestDto = requestService.create(itemRequestDto, newUserDto.getId());
 
         assertThat(returnRequestDto.getDescription(), equalTo(itemRequestDto.getDescription()));
     }
@@ -47,7 +47,7 @@ public class RequestServiceTest {
     @Test
     void shouldExceptionWhenCreateItemRequestWithWrongUserId() {
         NotFoundException exp = assertThrows(NotFoundException.class,
-                () -> RequestService.create(itemRequestDto, -2L));
+                () -> requestService.create(itemRequestDto, -2L));
 
         assertEquals("Пользователь c id = -2 не найден!", exp.getMessage());
     }
@@ -57,7 +57,7 @@ public class RequestServiceTest {
         UserDto userDto = userService.create(user1);
 
         NotFoundException exp = assertThrows(NotFoundException.class,
-                () -> RequestService.getById(-2L, userDto.getId()));
+                () -> requestService.getById(-2L, userDto.getId()));
         assertEquals("Запрос c id = -2 не найден!", exp.getMessage());
     }
 
@@ -66,9 +66,9 @@ public class RequestServiceTest {
         UserDto userDto = userService.create(user1);
         UserDto requesterDto = userService.create(user2);
 
-        RequestService.create(itemRequestDto, requesterDto.getId());
-        RequestService.create(itemRequestDto, requesterDto.getId());
-        List<ItemRequestDto> listItemRequest = RequestService.getAll(0, 10, userDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
+        List<ItemRequestDto> listItemRequest = requestService.getAll(0, 10, userDto.getId());
 
         assertThat(listItemRequest.size(), equalTo(2));
     }
@@ -78,9 +78,9 @@ public class RequestServiceTest {
         UserDto userDto = userService.create(user1);
         UserDto requesterDto = userService.create(user2);
 
-        RequestService.create(itemRequestDto, requesterDto.getId());
-        RequestService.create(itemRequestDto, requesterDto.getId());
-        List<ItemRequestDto> listItemRequest = RequestService.getAll(0, null, userDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
+        List<ItemRequestDto> listItemRequest = requestService.getAll(0, null, userDto.getId());
 
         assertThat(listItemRequest.size(), equalTo(2));
     }
@@ -90,10 +90,10 @@ public class RequestServiceTest {
         UserDto userDto = userService.create(user1);
         UserDto requesterDto = userService.create(user2);
 
-        RequestService.create(itemRequestDto, requesterDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
 
         ValidationException exception = assertThrows(ValidationException.class,
-                () -> RequestService.getAll(0, -1, userDto.getId()));
+                () -> requestService.getAll(0, -1, userDto.getId()));
         assertEquals("Параметр size должен быть больше 0 или равен null!", exception.getMessage());
     }
 
@@ -102,10 +102,10 @@ public class RequestServiceTest {
         UserDto userDto = userService.create(user1);
         UserDto requesterDto = userService.create(user2);
 
-        RequestService.create(itemRequestDto, requesterDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
 
         ValidationException exception = assertThrows(ValidationException.class,
-                () -> RequestService.getAll(0, 0, userDto.getId()));
+                () -> requestService.getAll(0, 0, userDto.getId()));
         assertEquals("Параметр size должен быть больше 0 или равен null!", exception.getMessage());
     }
 
@@ -114,10 +114,10 @@ public class RequestServiceTest {
         UserDto userDto = userService.create(user1);
         UserDto requesterDto = userService.create(user2);
 
-        RequestService.create(itemRequestDto, requesterDto.getId());
+        requestService.create(itemRequestDto, requesterDto.getId());
 
         ValidationException exception = assertThrows(ValidationException.class,
-                () -> RequestService.getAll(-1, null, userDto.getId()));
+                () -> requestService.getAll(-1, null, userDto.getId()));
         assertEquals("Параметр from должен быть >= 0 или равен null!", exception.getMessage());
     }
 
@@ -125,9 +125,9 @@ public class RequestServiceTest {
     void shouldReturnOwnItemRequests() {
         UserDto userDto = userService.create(user2);
 
-        RequestService.create(itemRequestDto, userDto.getId());
-        RequestService.create(itemRequestDto, userDto.getId());
-        List<ItemRequestDto> listItemRequest = RequestService.getOwn(userDto.getId());
+        requestService.create(itemRequestDto, userDto.getId());
+        requestService.create(itemRequestDto, userDto.getId());
+        List<ItemRequestDto> listItemRequest = requestService.getOwn(userDto.getId());
 
         assertThat(listItemRequest.size(), equalTo(2));
     }
@@ -136,8 +136,8 @@ public class RequestServiceTest {
     void shouldReturnItemRequestById() {
         UserDto userDto = userService.create(user1);
 
-        ItemRequestDto newItemRequestDto = RequestService.create(itemRequestDto, userDto.getId());
-        ItemRequestDto returnItemRequestDto = RequestService.getById(newItemRequestDto.getId(), userDto.getId());
+        ItemRequestDto newItemRequestDto = requestService.create(itemRequestDto, userDto.getId());
+        ItemRequestDto returnItemRequestDto = requestService.getById(newItemRequestDto.getId(), userDto.getId());
 
         assertThat(returnItemRequestDto.getDescription(), equalTo(itemRequestDto.getDescription()));
     }

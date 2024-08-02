@@ -44,13 +44,13 @@ public class BookingServiceTest {
         UserDto ownerDto = userService.create(user1);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
         NotFoundException exp = assertThrows(NotFoundException.class,
-                () -> bookingService.create(BookingInDto, ownerDto.getId()));
+                () -> bookingService.create(bookingInDto, ownerDto.getId()));
         assertEquals("Вы не можете забронировать вещь, для которой являетесь владельцем!", exp.getMessage());
     }
 
@@ -60,12 +60,12 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
 
         NotFoundException exp = assertThrows(NotFoundException.class,
                 () -> bookingService.updateStatus(bookingDto.getId(), true, bookerDto.getId()));
@@ -79,12 +79,12 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
         bookingDto = bookingService.updateStatus(bookingDto.getId(), true, ownerDto.getId());
 
         assertEquals(Status.APPROVED, bookingDto.getStatus());
@@ -96,12 +96,12 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
         bookingDto = bookingService.updateStatus(bookingDto.getId(), false, ownerDto.getId());
 
         assertEquals(Status.REJECTED, bookingDto.getStatus());
@@ -113,12 +113,12 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
         bookingDto = bookingService.updateStatus(bookingDto.getId(), false, ownerDto.getId());
         Long bookingId = bookingDto.getId();
 
@@ -137,12 +137,12 @@ public class BookingServiceTest {
         Long otherUserId = otherUserDto.getId();
         ItemDto newItemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 newItemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
 
         NotFoundException exp = assertThrows(NotFoundException.class,
                 () -> bookingService.get(bookingDto.getId(), otherUserId));
@@ -156,17 +156,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().plusDays(1),
                 LocalDateTime.now().plusDays(10));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().plusMinutes(5),
                 LocalDateTime.now().plusYears(1));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         ValidationException exp = assertThrows(ValidationException.class,
                 () -> bookingService.getAllBookingByUserId(bookerDto.getId(), "UNKNOWN_STATE"));
@@ -179,17 +179,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto2 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2031, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2031, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto2, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingByUserId(bookerDto.getId(), "ALL");
         assertEquals(2, listBookings.size());
@@ -202,17 +202,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusDays(1),
                 LocalDateTime.now().plusDays(2));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusDays(10),
                 LocalDateTime.now().plusYears(1));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingByUserId(bookerDto.getId(), "CURRENT");
         assertEquals(2, listBookings.size());
@@ -224,17 +224,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusYears(10),
                 LocalDateTime.now().minusYears(5));
-        BookingDto bookingDto1 = bookingService.create(BookingInDto1, bookerDto.getId());
+        BookingDto bookingDto1 = bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto2 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusYears(2),
                 LocalDateTime.now().minusYears(1));
-        BookingDto bookingDto2 = bookingService.create(BookingInDto2, bookerDto.getId());
+        BookingDto bookingDto2 = bookingService.create(bookingInDto1, bookerDto.getId());
 
         bookingService.updateStatus(bookingDto1.getId(), true, ownerDto.getId());
         bookingService.updateStatus(bookingDto2.getId(), true, ownerDto.getId());
@@ -249,17 +249,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().plusDays(1),
                 LocalDateTime.now().plusDays(10));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().plusMinutes(5),
                 LocalDateTime.now().plusYears(1));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingByUserId(bookerDto.getId(), "FUTURE");
         assertEquals(2, listBookings.size());
@@ -271,17 +271,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2031, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2031, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingByUserId(bookerDto.getId(), "WAITING");
         assertEquals(2, listBookings.size());
@@ -293,17 +293,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2031, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2031, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingByUserId(bookerDto.getId(), "REJECTED");
         assertEquals(0, listBookings.size());
@@ -315,17 +315,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2031, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2031, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingsForUserItems(ownerDto.getId(), "ALL");
         assertEquals(2, listBookings.size());
@@ -337,17 +337,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusDays(1),
                 LocalDateTime.now().plusDays(5));
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusMonths(1),
                 LocalDateTime.now().plusMinutes(50));
-        BookingDto bookingDto1 = bookingService.create(BookingInDto1, bookerDto.getId());
+        BookingDto bookingDto1 = bookingService.create(bookingInDto1, bookerDto.getId());
 
         bookingService.updateStatus(bookingDto.getId(), true, ownerDto.getId());
         bookingService.updateStatus(bookingDto1.getId(), true, ownerDto.getId());
@@ -362,17 +362,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusDays(10),
                 LocalDateTime.now().minusDays(1));
-        BookingDto bookingDto = bookingService.create(BookingInDto, bookerDto.getId());
+        BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().minusMonths(1),
                 LocalDateTime.now().minusDays(1));
-        BookingDto bookingDto1 = bookingService.create(BookingInDto1, bookerDto.getId());
+        BookingDto bookingDto1 = bookingService.create(bookingInDto1, bookerDto.getId());
 
         bookingService.updateStatus(bookingDto.getId(), true, ownerDto.getId());
         bookingService.updateStatus(bookingDto1.getId(), true, ownerDto.getId());
@@ -387,17 +387,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().plusDays(1),
                 LocalDateTime.now().plusDays(10));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.now().plusMonths(2),
                 LocalDateTime.now().plusMonths(10));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingsForUserItems(ownerDto.getId(), "FUTURE");
         assertEquals(2, listBookings.size());
@@ -409,17 +409,17 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2031, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2031, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingsForUserItems(ownerDto.getId(), "WAITING");
         assertEquals(2, listBookings.size());
@@ -431,18 +431,18 @@ public class BookingServiceTest {
         UserDto bookerDto = userService.create(user2);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto, bookerDto.getId());
+        bookingService.create(bookingInDto, bookerDto.getId());
 
 
-        BookingInDto BookingInDto1 = new BookingInDto(
+        BookingInDto bookingInDto1 = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2031, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2031, 12, 26, 12, 0, 0));
-        bookingService.create(BookingInDto1, bookerDto.getId());
+        bookingService.create(bookingInDto1, bookerDto.getId());
 
         List<BookingDto> listBookings = bookingService.getAllBookingsForUserItems(ownerDto.getId(), "REJECTED");
         assertEquals(0, listBookings.size());
@@ -456,13 +456,13 @@ public class BookingServiceTest {
         itemDto1.setAvailable(Boolean.FALSE);
         ItemDto itemDto = itemService.create(itemDto1, ownerDto.getId());
 
-        BookingInDto BookingInDto = new BookingInDto(
+        BookingInDto bookingInDto = new BookingInDto(
                 itemDto.getId(),
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
         NotAvailableBookingException exp = assertThrows(NotAvailableBookingException.class,
-                () -> bookingService.create(BookingInDto, bookerDto.getId()));
+                () -> bookingService.create(bookingInDto, bookerDto.getId()));
         assertEquals(String.format("Вещь с id = %d недоступна для бронирования!", itemDto.getId()), exp.getMessage());
     }
 

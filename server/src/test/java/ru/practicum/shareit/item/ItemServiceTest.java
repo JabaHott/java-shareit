@@ -38,8 +38,8 @@ public class ItemServiceTest {
     private final User user1 = new User(200L, "user1", "first@user.ru");
     private final User user2 = new User(201L, "user2", "second@user.ru");
 
-    private final ItemDto itemDto1 = new ItemDto(30l, "itemDto1", "description1", true, null);
-    private final ItemDto itemDto2 = new ItemDto(30l, "itemDto2", "description2", true, null);
+    private final ItemDto itemDto1 = new ItemDto(30L, "itemDto1", "description1", true, null);
+    private final ItemDto itemDto2 = new ItemDto(30L, "itemDto2", "description2", true, null);
 
     @Test
      void shouldCreateItem() {
