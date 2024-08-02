@@ -3,8 +3,6 @@ package ru.practicum.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.practicum.dto.BookingWithBookerIdDto;
-import ru.practicum.dto.UserDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

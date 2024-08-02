@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.dto.BookingInDto;
 import ru.practicum.dto.State;
-import ru.practicum.clients.BaseClient;
 
 import java.util.HashMap;
 import java.util.Map;

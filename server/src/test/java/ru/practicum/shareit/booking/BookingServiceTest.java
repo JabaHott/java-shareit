@@ -69,7 +69,7 @@ public class BookingServiceTest {
 
         NotFoundException exp = assertThrows(NotFoundException.class,
                 () -> bookingService.updateStatus(bookingDto.getId(), true, bookerDto.getId()));
-        assertEquals(String.format("Статус бронирования может изменить только владелец вещи с id = 3!",
+        assertEquals(String.format("Статус бронирования может изменить только владелец вещи с id = {}!",
                 bookerDto.getId()), exp.getMessage());
     }
 

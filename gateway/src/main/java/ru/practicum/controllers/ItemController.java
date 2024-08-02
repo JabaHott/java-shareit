@@ -9,7 +9,6 @@ import ru.practicum.dto.CommentDto;
 import ru.practicum.dto.ItemDto;
 
 import javax.validation.Valid;
-import java.util.List;
 
 
 @Slf4j

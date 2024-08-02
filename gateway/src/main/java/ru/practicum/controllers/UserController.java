@@ -14,6 +14,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
+@Validated
 public class UserController {
 
     private final UserClient userClient;
