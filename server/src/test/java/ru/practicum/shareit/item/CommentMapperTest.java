@@ -3,27 +3,20 @@ package ru.practicum.shareit.item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
-import org.mockito.Mockito;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.mapper.CommentMapper;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.item.service.ItemService;
 import ru.practicum.shareit.user.model.User;
-import ru.practicum.shareit.user.service.UserService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommentMapperTest {
 
     private CommentMapper commentMapper;
-    private UserService userService;
-    private ItemService itemService;
 
     @BeforeEach
     public void setUp() {
-        userService = Mockito.mock(UserService.class);
-        itemService = Mockito.mock(ItemService.class);
         commentMapper = Mappers.getMapper(CommentMapper.class);
     }
 
