@@ -32,7 +32,7 @@ class ErrorHandlerTest {
     private WasNotOwnerException wasNotOwnerException;
 
     @Mock
-    private ru.practicum.shareit.exception.notAvailableBookingException notAvailableBookingException;
+    private NotAvailableBookingException notAvailableBookingException;
 
     @InjectMocks
     private ErrorHandler errorHandler;
