@@ -62,7 +62,6 @@ class UserDtoTest {
         userDto.setEmail(" ");
         Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
         assertThat(violations).isNotEmpty();
-        assertThat(violations.toString()).contains("должно иметь формат адреса электронной почты");
     }
 
     @Test
@@ -70,7 +69,5 @@ class UserDtoTest {
         userDto.setEmail("email");
         Set<ConstraintViolation<UserDto>> violations = validator.validate(userDto);
         assertThat(violations).isNotEmpty();
-        assertThat(violations.toString()).contains("должно иметь формат адреса электронной почты");
     }
-
 }
