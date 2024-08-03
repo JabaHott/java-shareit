@@ -12,7 +12,7 @@ import ru.practicum.shareit.booking.mapper.BookingMapper;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.model.Status;
-import ru.practicum.shareit.exception.NotAvailableBookingException;
+import ru.practicum.shareit.exception.notAvailableBookingException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.repository.ItemRepository;
@@ -228,7 +228,7 @@ public class BookingServiceImpl implements BookingService {
         if (Boolean.FALSE.equals(item.getAvailable())) {
             String errorMessage = String.format("Вещь с id = %d недоступна для бронирования!", bookingInputDto.getItemId());
             log.warn(errorMessage);
-            throw new NotAvailableBookingException(errorMessage);
+            throw new notAvailableBookingException(errorMessage);
         }
 
         if (itemRepository.getReferenceById(bookingInputDto.getItemId()).getOwner().getId().equals(userId)) {

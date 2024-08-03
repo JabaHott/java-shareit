@@ -57,9 +57,9 @@ public class ErrorHandler {
         return new ErrorResponse(e.getMessage());
     }
 
-    @ExceptionHandler(NotAvailableBookingException.class)
+    @ExceptionHandler(notAvailableBookingException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleNotAvailableBookingException(NotAvailableBookingException e) {
+    public ErrorResponse handleNotAvailableBookingException(notAvailableBookingException e) {
         log.error("Ошибка доступности брони. Ответ: {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }

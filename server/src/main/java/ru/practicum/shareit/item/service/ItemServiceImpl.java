@@ -152,7 +152,7 @@ public class ItemServiceImpl implements ItemService {
 
     private void checkUser(Long userId) {
         if (!userRepository.existsById(userId)) {
-            String error = String.format("Указанный пользователь " + userId + "не найден!");
+            String error = String.format("Указанный пользователь " + userId + " не найден!");
             log.warn(error);
             throw new NotFoundException(error);
         }
@@ -160,7 +160,7 @@ public class ItemServiceImpl implements ItemService {
 
     private void checkItem(Long itemId) {
         if (!itemRepository.existsById(itemId)) {
-            String error = String.format("Указанный товар " + itemId + "не найден!");
+            String error = String.format("Указанный товар " + itemId + " не найден!");
             log.warn(error);
             throw new NotFoundException(error);
         }

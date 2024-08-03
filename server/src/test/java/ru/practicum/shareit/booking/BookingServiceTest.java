@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.exception.NotAvailableBookingException;
+import ru.practicum.shareit.exception.notAvailableBookingException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
@@ -460,7 +460,7 @@ public class BookingServiceTest {
                 LocalDateTime.of(2030, 12, 25, 12, 0, 0),
                 LocalDateTime.of(2030, 12, 26, 12, 0, 0));
 
-        NotAvailableBookingException exp = assertThrows(NotAvailableBookingException.class,
+        notAvailableBookingException exp = assertThrows(notAvailableBookingException.class,
                 () -> bookingService.create(bookingInDto, bookerDto.getId()));
         assertEquals(String.format("Вещь с id = %d недоступна для бронирования!", itemDto.getId()), exp.getMessage());
     }
