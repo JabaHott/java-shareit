@@ -3,6 +3,7 @@ package ru.practicum.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.clients.ItemClient;
 import ru.practicum.dto.CommentDto;
@@ -11,8 +12,9 @@ import ru.practicum.dto.ItemDto;
 import javax.validation.Valid;
 
 
+
 @Slf4j
-@RestController
+@Controller
 @RequestMapping(path = "/items")
 @RequiredArgsConstructor
 public class ItemController {
@@ -48,6 +50,9 @@ public class ItemController {
 
     @GetMapping("/search")
     public ResponseEntity<Object> searchItem(@RequestParam("text") String text, @RequestHeader(REQ_HEADER) Long userId) {
+        if (text.isBlank()) {
+            return null;
+        }
         log.info("Получен  GET запрос /items/search с телом {}", text);
         return itemClient.searchForItem(userId, text);
     }

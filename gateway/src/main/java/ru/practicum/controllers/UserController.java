@@ -3,6 +3,7 @@ package ru.practicum.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.clients.UserClient;
@@ -11,7 +12,7 @@ import ru.practicum.dto.UserDto;
 import javax.validation.Valid;
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
 @Validated
@@ -20,6 +21,7 @@ public class UserController {
     private final UserClient userClient;
 
     @PostMapping
+    @Validated({BaseControllerInterface.Create.class})
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserDto userDto) {
         log.info("Получен POST запрос /users с телом {}", userDto);
         return userClient.createUser(userDto);

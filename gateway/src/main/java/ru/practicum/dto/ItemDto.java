@@ -6,6 +6,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
@@ -15,9 +16,11 @@ public class ItemDto {
     private Long id;
 
     @NotBlank(message = "Название (name) вещи не должно быть пустым!")
+    @Size(max = 255, message = "Имя не должно превышать 255 символов")
     private String name;
 
     @NotBlank(message = "Описание (description) вещи не должно быть пустым!")
+    @Size(max = 512, message = "Описание не должно превышать 512 символов")
     private String description;
 
     @NotNull(message = "Не указан статус (available) вещи!")

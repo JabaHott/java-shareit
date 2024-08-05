@@ -3,6 +3,7 @@ package ru.practicum.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.clients.RequestClient;
 import ru.practicum.dto.RequestDto;
@@ -10,7 +11,7 @@ import ru.practicum.dto.RequestDto;
 import javax.validation.Valid;
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping(path = "/requests")
 @RequiredArgsConstructor
 public class RequestController {

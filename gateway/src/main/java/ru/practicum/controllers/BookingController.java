@@ -3,6 +3,7 @@ package ru.practicum.controllers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.clients.BookingClient;
 import ru.practicum.dto.State;
@@ -12,14 +13,13 @@ import javax.validation.Valid;
 
 
 @Slf4j
-@RestController
+@Controller
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
 public class BookingController {
     private static final String REQ_HEADER = "X-Sharer-User-Id";
     private final BookingClient bookingClient;
 
-    @ResponseBody
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody BookingInDto bookingInDto,
                                          @RequestHeader(REQ_HEADER) Long bookerId) {
@@ -27,7 +27,6 @@ public class BookingController {
         return bookingClient.create(bookingInDto, bookerId);
     }
 
-    @ResponseBody
     @PatchMapping("/{bookingId}")
     public ResponseEntity<Object> update(@PathVariable Long bookingId,
                                          @RequestHeader(REQ_HEADER) Long userId, @RequestParam Boolean approved) {
