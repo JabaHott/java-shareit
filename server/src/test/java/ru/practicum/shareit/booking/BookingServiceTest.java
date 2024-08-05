@@ -10,6 +10,7 @@ import ru.practicum.shareit.booking.dto.BookingInDto;
 import ru.practicum.shareit.booking.service.BookingService;
 import ru.practicum.shareit.exception.NotAvailableBookingException;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.exception.OwnerValidationException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.service.ItemService;
@@ -67,7 +68,7 @@ public class BookingServiceTest {
 
         BookingDto bookingDto = bookingService.create(bookingInDto, bookerDto.getId());
 
-        NotFoundException exp = assertThrows(NotFoundException.class,
+        OwnerValidationException exp = assertThrows(OwnerValidationException.class,
                 () -> bookingService.updateStatus(bookingDto.getId(), true, bookerDto.getId()));
         assertEquals(String.format("Статус бронирования может изменить только владелец вещи с id = %d!", itemDto.getId()), exp.getMessage());
     }

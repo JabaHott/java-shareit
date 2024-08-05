@@ -32,13 +32,13 @@ public class BookingController {
     public ResponseEntity<Object> update(@PathVariable Long bookingId,
                                          @RequestHeader(REQ_HEADER) Long userId, @RequestParam Boolean approved) {
         log.info("Получен PATCH запрос /bookings/bookingId бронь={}, пользователь={}, состояние={}", bookingId, userId, approved);
-        return bookingClient.updateStatus(bookingId, approved, userId);
+        return bookingClient.updateStatus(userId, approved, bookingId);
     }
 
     @GetMapping("/{bookingId}")
     public ResponseEntity<Object> getBookingById(@PathVariable Long bookingId, @RequestHeader(REQ_HEADER) Long userId) {
         log.info("Получен GET запрос /bookings' на получение бронирования с ID={}", bookingId);
-        return bookingClient.getBooking(bookingId, userId);
+        return bookingClient.getBooking(userId, bookingId);
     }
 
     @GetMapping

@@ -14,6 +14,7 @@ import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.model.Status;
 import ru.practicum.shareit.exception.NotAvailableBookingException;
 import ru.practicum.shareit.exception.NotFoundException;
+import ru.practicum.shareit.exception.OwnerValidationException;
 import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.item.repository.ItemRepository;
 import ru.practicum.shareit.item.model.Item;
@@ -62,7 +63,7 @@ public class BookingServiceImpl implements BookingService {
             String errorMessage = String.format("Статус бронирования может изменить только владелец вещи с id = %d!",
                     booking.getItem().getId());
             log.warn(errorMessage);
-            throw new NotFoundException(errorMessage);
+            throw new OwnerValidationException(errorMessage);
         }
 
         if (WAITING.equals(booking.getStatus()) && approve) {
