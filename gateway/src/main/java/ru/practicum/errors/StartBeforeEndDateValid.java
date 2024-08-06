@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(validatedBy = CheckBookingPeriodValidator.class)
-public @interface BookingValidation {
+public @interface StartBeforeEndDateValid {
     String message() default "Start must be before end or not null";
 
     Class<?>[] groups() default {};

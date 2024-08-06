@@ -19,7 +19,7 @@ public class UserDto {
     @Size(max = 255, message = "Имя не должно превышать 255 символов")
     private String name;
     @NotEmpty(groups = BaseControllerInterface.Create.class)
-    @Email
+    @Email(groups = {BaseControllerInterface.Create.class, BaseControllerInterface.Update.class})
     @Size(max = 512, message = "Почта не должна превышать 512 символов")
     private String email;
 }

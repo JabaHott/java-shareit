@@ -6,10 +6,10 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDateTime;
 
-public class CheckBookingPeriodValidator implements ConstraintValidator<BookingValidation, BookingInDto> {
+public class CheckBookingPeriodValidator implements ConstraintValidator<StartBeforeEndDateValid, BookingInDto> {
 
     @Override
-    public void initialize(BookingValidation constraintAnnotation) {
+    public void initialize(StartBeforeEndDateValid constraintAnnotation) {
     }
 
     @Override

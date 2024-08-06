@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.clients.UserClient;
 import ru.practicum.dto.UserDto;
 
-import javax.validation.Valid;
-
 @Slf4j
 @Controller
 @RequestMapping(path = "/users")
@@ -22,12 +20,13 @@ public class UserController {
 
     @PostMapping
     @Validated({BaseControllerInterface.Create.class})
-    public ResponseEntity<Object> createUser(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Object> createUser(@RequestBody UserDto userDto) {
         log.info("Получен POST запрос /users с телом {}", userDto);
         return userClient.createUser(userDto);
     }
 
     @PatchMapping("/{userId}")
+    @Validated({BaseControllerInterface.Update.class})
     public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto, @PathVariable("userId") Long userId) {
         log.info("Получен PATCH запрос /users/{} с телом {}", userId, userDto);
         return userClient.updateUser(userId, userDto);

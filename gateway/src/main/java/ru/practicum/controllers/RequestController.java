@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.clients.RequestClient;
 import ru.practicum.dto.RequestDto;
-
-import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -20,7 +19,8 @@ public class RequestController {
     private static final String REQ_HEADER = "X-Sharer-User-Id";
 
     @PostMapping
-    public ResponseEntity<Object> createItemRequest(@Valid @RequestBody RequestDto requestDto,
+    @Validated({BaseControllerInterface.Create.class})
+    public ResponseEntity<Object> createItemRequest(@RequestBody RequestDto requestDto,
                                                     @RequestHeader(REQ_HEADER) Long userId) {
         log.info("Пользователь с id = {} отправил запрос на создание запроса", userId);
         return requestClient.createRequest(userId, requestDto);
